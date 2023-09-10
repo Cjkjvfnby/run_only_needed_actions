@@ -1,25 +1,97 @@
 name: 'Flag file Groups'
 description: 'For changed files flag groups that were affected'
+inputs:
+  config-file:
+    description: 'path to config file from the project root'
+    required: true
+  check-file-changed-version:
+    description: 'tag or branch for the check_file_changed code'
+    default: "v1"
+  config-coverage:
+    description: 'Run coverage for config'
+    default: "false"
 outputs:
-  build_windows_cmake: ${{ steps.set_files_changed.outputs.BUILD_WINDOWS_WITH_CMAKE }}
-  build_windows_msvs: ${{ steps.set_files_changed.outputs.BUILD_WINDOWS_WITH_MSVS }}
-  build_android: ${{ steps.set_files_changed.outputs.BUILD_ANDROID }}
-  build_macos: ${{ steps.set_files_changed.outputs.BUILD_MACOS }}
-  build_ubuntu: ${{ steps.set_files_changed.outputs.BUILD_UBUNTU }}
-  lint_py_focs: ${{ steps.set_files_changed.outputs.LINT_PY_FOCS }}
-  lint-codeql: ${{ steps.set_files_changed.outputs.LINT_CODEQL }}
-  lint_python: ${{ steps.set_files_changed.outputs.LINT_PYTHON }}
-  lint_string_tables: ${{ steps.set_files_changed.outputs.LINT_STRING_TABLES }}
+  # GitHub allows to pass only simple output,
+  # so I reserved numeric values for groups starting from 1.
+  output-01:
+    value: ${{steps.set-files-changed.outputs.output-01}}
+    description: output for 01
+  output-02:
+    value: ${{steps.set-files-changed.outputs.output-02}}
+    description: output for 02
+  output-03:
+    value: ${{steps.set-files-changed.outputs.output-03}}
+    description: output for 03
+  output-04:
+    value: ${{steps.set-files-changed.outputs.output-04}}
+    description: output for 04
+  output-05:
+    value: ${{steps.set-files-changed.outputs.output-05}}
+    description: output for 05
+  output-06:
+    value: ${{steps.set-files-changed.outputs.output-06}}
+    description: output for 06
+  output-07:
+    value: ${{steps.set-files-changed.outputs.output-07}}
+    description: output for 07
+  output-08:
+    value: ${{steps.set-files-changed.outputs.output-08}}
+    description: output for 08
+  output-09:
+    value: ${{steps.set-files-changed.outputs.output-09}}
+    description: output for 09
+  output-10:
+    value: ${{steps.set-files-changed.outputs.output-10}}
+    description: output for 10
+  output-11:
+    value: ${{steps.set-files-changed.outputs.output-11}}
+    description: output for 11
+  output-12:
+    value: ${{steps.set-files-changed.outputs.output-12}}
+    description: output for 12
+  output-13:
+    value: ${{steps.set-files-changed.outputs.output-13}}
+    description: output for 13
+  output-14:
+    value: ${{steps.set-files-changed.outputs.output-14}}
+    description: output for 14
+  output-15:
+    value: ${{steps.set-files-changed.outputs.output-15}}
+    description: output for 15
+  output-16:
+    value: ${{steps.set-files-changed.outputs.output-16}}
+    description: output for 16
+  output-17:
+    value: ${{steps.set-files-changed.outputs.output-17}}
+    description: output for 17
+  output-18:
+    value: ${{steps.set-files-changed.outputs.output-18}}
+    description: output for 18
+  output-19:
+    value: ${{steps.set-files-changed.outputs.output-19}}
+    description: output for 19
+  output-20:
+    value: ${{steps.set-files-changed.outputs.output-20}}
+    description: output for 20
 runs:
   using: "composite"
   steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
       with:
         fetch-depth: 2
     - uses: actions/setup-python@v4
       with:
         python-version: '3.11'
-    - id: set_files_changed
-      working-directory: check_file_changed
-      run: python set_output.py
+    - id: install-lib
+      run: |
+        pip install -q git+https://github.com/Cjkjvfnby/run_only_needed_actions.git@${{ inputs.check-file-changed-version }}
+      shell: bash
+    - id: check-all-files
+      if: ${{ inputs.config-coverage == 'true' }}
+      run: |
+        check_coverage --config-file "${{ inputs.config-file }}"
+      shell: bash
+    - id: set-files-changed
+      run: |
+        set_output --config-file "${{ inputs.config-file }}"
       shell: bash

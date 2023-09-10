@@ -1,3 +1,21 @@
+[build-system]
+requires = ["flit_core >=3.2,<4"]
+build-backend = "flit_core.buildapi"
+
+[project]
+name = "check_file_changed"
+authors = [{name = "Andrey Solomatin"}]
+readme = "README.md"
+license = {file = "LICENSE"}
+classifiers = ["License :: OSI Approved :: MIT License"]
+dynamic = ["version", "description"]
+
+
+[project.scripts]
+set_output = "check_file_changed.set_output:main"
+check_coverage = "check_file_changed.check_coverage:main"
+
+
 [tool.black]
 include = '\.pyi?$'
 
@@ -18,12 +36,21 @@ ignore = [
     "RSE102",
     "D203",
     "FLY002", # fix produces invalid code https://github.com/astral-sh/ruff/issues/5150
+    "E501", # black will take care about it
 ]
-line-length = 98
+
+target-version = "py311"
 
 [tool.ruff.per-file-ignores]
 "__init__.py" = ["F401"]
-"test/*" = ["D10", "D101", "D103", "S101", "ANN", "PLR2004"]
+"tests/*" = ["D10", "D101", "D103", "S101", "ANN", "PLR2004"]
+
+# Prints are ok for this scripts
+# Docs only for module
+"check_file_changed/check_coverage.py" = ["T201", "D103"]
+"check_file_changed/set_output.py" = ["T201", "D103"]
+"check_file_changed/_print.py" = ["T201"]
+
 
 [tool.ruff.mccabe]
 max-complexity = 5

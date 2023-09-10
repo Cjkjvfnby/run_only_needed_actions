@@ -1,19 +1,13 @@
 name: Test and lint
-
 on:
+  push:
   pull_request:
-    types:
-      - opened
-      - edited
-      - reopened
-      - synchronize
+    types: ['opened', 'reopened', 'synchronize']
     paths:
       - '**.py'
       - '.github/workflows/**'
-      - '.flake8'
       - 'requirements-ci.txt'
-      - 'requirements.txt'
-
+      - 'requirements-dev.txt'
 jobs:
   check:
     runs-on: ubuntu-latest
@@ -21,22 +15,14 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v4
         with:
-          python-version: 3.9
+          python-version: 3.11
       - name: Install dependencies
         run: |
           pip install -r requirements-dev.txt
       - uses: pre-commit/action@v3.0.0
+      - name: Install
+        run: |
+          pip install -q .
       - name: Test with pytest
         run: |
-          pytest -v --cov=check_file_changed --cov-report xml:coverage.xml
-      - name: Report coverage
-        uses: 5monkeys/cobertura-action@master
-        with:
-          path: coverage.xml
-          skip_covered: true
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
-          minimum_coverage: 42
-          show_missing: true
-          link_missing_lines: true
-          report_name: Project coverage
-          link_missing_lines_source_dir: check_file_changed
+          pytest -v --cov=check_file_changed._file_checker

@@ -1,0 +1,10 @@
+name: "Nested workflow"
+
+on:
+  workflow_call:
+
+jobs:
+  some :
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo Hello
