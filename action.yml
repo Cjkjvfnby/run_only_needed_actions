@@ -1,0 +1,25 @@
+name: 'Flag file Groups'
+description: 'For changed files flag groups that were affected'
+outputs:
+  build_windows_cmake: ${{ steps.set_files_changed.outputs.BUILD_WINDOWS_WITH_CMAKE }}
+  build_windows_msvs: ${{ steps.set_files_changed.outputs.BUILD_WINDOWS_WITH_MSVS }}
+  build_android: ${{ steps.set_files_changed.outputs.BUILD_ANDROID }}
+  build_macos: ${{ steps.set_files_changed.outputs.BUILD_MACOS }}
+  build_ubuntu: ${{ steps.set_files_changed.outputs.BUILD_UBUNTU }}
+  lint_py_focs: ${{ steps.set_files_changed.outputs.LINT_PY_FOCS }}
+  lint-codeql: ${{ steps.set_files_changed.outputs.LINT_CODEQL }}
+  lint_python: ${{ steps.set_files_changed.outputs.LINT_PYTHON }}
+  lint_string_tables: ${{ steps.set_files_changed.outputs.LINT_STRING_TABLES }}
+runs:
+  using: "composite"
+  steps:
+    - uses: actions/checkout@v3
+      with:
+        fetch-depth: 2
+    - uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+    - id: set_files_changed
+      working-directory: check_file_changed
+      run: python set_output.py
+      shell: bash

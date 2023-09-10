@@ -1,0 +1,35 @@
+[tool.black]
+include = '\.pyi?$'
+
+[tool.pytest.ini_options]
+addopts = [
+    "--doctest-modules",
+    "--doctest-continue-on-failure",
+    "--showlocals",
+]
+
+[tool.ruff]
+select = ["ALL"]
+ignore = [
+    "ANN101", "ANN204", "ANN401",
+    "D104", # no docstring in public package
+    "D200", # One-line docstring should fit on one line with quotes
+    "D212",
+    "RSE102",
+    "D203",
+    "FLY002", # fix produces invalid code https://github.com/astral-sh/ruff/issues/5150
+]
+line-length = 98
+
+[tool.ruff.per-file-ignores]
+"__init__.py" = ["F401"]
+"test/*" = ["D10", "D101", "D103", "S101", "ANN", "PLR2004"]
+
+[tool.ruff.mccabe]
+max-complexity = 5
+
+
+[tool.coverage.report]
+exclude_also = [
+    "if TYPE_CHECKING:",
+    ]
