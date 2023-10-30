@@ -12,27 +12,27 @@ jobs:
           check-file-changed-version: "master"
           config-coverage: "true"
     outputs:
-      workflow_readme: ${{ steps.set-files-changed.outputs.workflow_readme }}
-      workflow_workflow_yml: ${{ steps.set-files-changed.outputs.workflow_workflow_yml }}
-      workflow_support: ${{ steps.set-files-changed.outputs.workflow_support }}
-      workflow_all: ${{ steps.set-files-changed.outputs.workflow_all }}
+      readme: ${{ steps.set-files-changed.outputs.workflow_readme }}
+      workflow_yml: ${{ steps.set-files-changed.outputs.workflow_workflow_yml }}
+      support: ${{ steps.set-files-changed.outputs.workflow_support }}
+      all: ${{ steps.set-files-changed.outputs.all }}
   job-a:
     needs: detect-changed-files
-    if: ${{ needs.detect-changed-files.outputs.workflow_readme == 'true' }}
+    if: ${{ needs.detect-changed-files.outputs.readme == 'true' }}
     uses: ./.github/workflows/_nested_workflow.yml
   job-b:
     needs: detect-changed-files
-    if: ${{ needs.detect-changed-files.outputs.workflow_workflow_yml == 'true' }}
+    if: ${{ needs.detect-changed-files.outputs.workflow_yml == 'true' }}
     uses: ./.github/workflows/_nested_workflow.yml
   job-c:
     needs: detect-changed-files
-    if: ${{ needs.detect-changed-files.outputs.workflow_all == 'true' }}
+    if: ${{ needs.detect-changed-files.outputs.all == 'true' }}
     uses: ./.github/workflows/_nested_workflow.yml
   debug-prints:
     runs-on: ubuntu-latest
     needs: detect-changed-files
     steps:
-      - run: echo workflow_readme ${{ needs.detect-changed-files.outputs.workflow_readme }}
-      - run: echo workflow_workflow_yml ${{ needs.detect-changed-files.outputs.workflow_workflow_yml }}
-      - run: echo workflow_support ${{ needs.detect-changed-files.outputs.workflow_support }}
-      - run: echo workflow_all ${{ needs.detect-changed-files.outputs.workflow_all }}
+      - run: "echo workflow_readme: '${{ needs.detect-changed-files.outputs.workflow_readme }}'"
+      - run: "echo workflow_workflow_yml: '${{ needs.detect-changed-files.outputs.workflow_workflow_yml }}'"
+      - run: "echo workflow_support: '${{ needs.detect-changed-files.outputs.workflow_support }}'"
+      - run: "echo workflow_all: '${{ needs.detect-changed-files.outputs.workflow_all }}'"
