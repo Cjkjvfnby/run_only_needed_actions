@@ -12,8 +12,12 @@ The Action to run subworkflows on condition when something is changed.
 - You have multiple workflows in your GitHub repository.
 - Actions take time/resources to run.
 - It makes sense for run only some workflow when file is changed, but rules for that is complicated for [paths|paths-ignore][1].
-- You make workflow mandatory. Because when you skip workflow via path to ignore, it's not counted as passed.
+- You make workflow mandatory. When you skip it via if, it considered as passed.
 
+## Alternatives
+It's not a full list, if you know other, ping me.
+
+[altrnative list](alternatives.md)
 
 ## How
 You write a config that lists which files should trigger witch workflow and use it with this action.
