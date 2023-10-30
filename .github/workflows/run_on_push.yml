@@ -12,10 +12,10 @@ jobs:
           check-file-changed-version: "master"
           config-coverage: "true"
     outputs:
-      readme: ${{ steps.set-files-changed.outputs.readme }}
-      workflow_yml: ${{ steps.set-files-changed.outputs.workflow_yml }}
-      support: ${{ steps.set-files-changed.outputs.support }}
-      all: ${{ steps.set-files-changed.outputs.all }}
+      readme: ${{ steps.set-files-changed.outputs.output-01 }}
+      workflow_yml: ${{ steps.set-files-changed.outputs.output-02 }}
+      support: ${{ steps.set-files-changed.outputs.output-03 }}
+      all: ${{ steps.set-files-changed.outputs.output-04 }}
   job-a:
     needs: detect-changed-files
     if: ${{ needs.detect-changed-files.outputs.readme == 'true' }}
