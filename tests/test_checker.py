@@ -41,10 +41,10 @@ def test_config_could_be_read():
         Path(__file__).parent.parent / "check_file_changed" / "config.toml",
     )
     assert res.workflows == {
-        "workflow_readme": {"readme"},
-        "workflow_workflow_yml": {"workflow_yml"},
-        "workflow_support": {"readme", "workflow_yml"},
-        "workflow_all": {"all"},
+        "readme": {"readme"},
+        "workflow_yml": {"workflow_yml"},
+        "support": {"readme", "workflow_yml"},
+        "all": {"all"},
     }
     assert res.groups == [
         FileGroup(
