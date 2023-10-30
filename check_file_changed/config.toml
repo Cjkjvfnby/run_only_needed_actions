@@ -1,8 +1,8 @@
 [workflow]
-workflow_readme = ["readme"]
-workflow_workflow_yml = ["workflow_yml"]
-workflow_support =  ["readme", "workflow_yml"]
-workflow_all = ["all"]
+readme = ["readme"]
+workflow_yml = ["workflow_yml"]
+support =  ["readme", "workflow_yml"]
+all = ["all"]
 
 [group.readme]
 examples = ['README.md']
