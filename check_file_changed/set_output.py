@@ -23,9 +23,9 @@ def get_output_text(
 ) -> str:
     result = []
 
-    for i, workflow in enumerate(all_workflows, start=1):
+    for workflow in all_workflows:
         detected = str(workflow in affected_workflows).lower()
-        result.append(f"output-{i:>02}={detected}")
+        result.append(f"{workflow}={detected}")
     return "\n".join(result)
 
 
@@ -48,12 +48,9 @@ def check_changed_files(
         print("        with:")
         print('          config-file: ".github/workflows/%s"' % Path(config_file).name)
         print("    outputs:")
-        for i, wf in enumerate(file_checker.workflows, start=1):
+        for wf in file_checker.workflows:
             print(
-                "      {}: ${{{{ steps.set-files-changed.outputs.output-{} }}}}".format(
-                    wf,
-                    str(i).zfill(2),
-                ),
+                f"      {wf}: ${{{{ steps.set-files-changed.outputs.{wf} }}}}",
             )
 
         print("=" * 50)
